@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node-executor:
     docker:
-      - image: cimg/node:20.5.0  # you can adjust Node version if needed
+      - image: cimg/node:20.5.0
 
 jobs:
   build-and-deploy:
@@ -16,12 +16,16 @@ jobs:
           command: npm install
 
       - run:
-          name: Build Next.js app with OpenNext
+          name: Next.js build
           command: npm run build
 
       - run:
+          name: OpenNext build
+          command: npm run open-build
+
+      - run:
           name: Deploy to AWS with SST
-          command: npx sst deploy --stage production
+          command: npm run deploy
 
 workflows:
   version: 2
