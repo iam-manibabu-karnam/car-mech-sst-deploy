@@ -1,4 +1,4 @@
-import { NextjsSite, Bucket } from "sst/constructs";
+import { NextjsSite, Bucket } from "sst";
 
 export default {
   config(_app) {
