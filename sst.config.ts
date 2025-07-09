@@ -1,23 +1,26 @@
-import { NextjsSite, Bucket } from "sst/constructs";
-
 export default {
   config(_app) {
     return {
       name: "car-mech-sst-deploy",
-      region: "ap-south-1"
+      region: "ap-south-1",
     };
   },
+  async stacks(app) {
+    const { NextjsSite, Bucket } = await import("sst/constructs");
 
-  stacks(app) {
-    app.stack(function SiteStack({ stack }) {
-      const uploadsBucket = new Bucket(stack, "Uploads");
-
-      new NextjsSite(stack, "Site", {
-        path: ".",
-        environment: {
-          UPLOAD_BUCKET_NAME: uploadsBucket.bucketName,
-        },
-      });
+    const site = new NextjsSite(app, "NextJsSite", {
+      path: ".",
+      environment: {
+        UPLOADS_BUCKET: "my-uploads-bucket"
+      }
     });
-  },
+
+    new Bucket(app, "UploadsBucket", {
+      name: "my-uploads-bucket"
+    });
+
+    app.addOutputs({
+      SiteUrl: site.url,
+    });
+  }
 };
