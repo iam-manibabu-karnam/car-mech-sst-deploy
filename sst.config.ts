@@ -10,14 +10,9 @@ export default {
 
     const site = new NextjsSite(app, "NextJsSite", {
       path: ".",
-      environment: {
-        UPLOADS_BUCKET: "my-uploads-bucket"
-      }
     });
 
-    new Bucket(app, "UploadsBucket", {
-      name: "my-uploads-bucket"
-    });
+    new Bucket(app, "UploadsBucket");
 
     app.addOutputs({
       SiteUrl: site.url,
